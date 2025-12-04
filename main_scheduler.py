@@ -77,7 +77,13 @@ def main():
     # STEP B: SCHEDULER SORTS QUEUE (SJF LOGIC)
     # This is the "Magic". We sort by PREDICTED time, not actual (since actual is unknown until run)
     print("\n [Scheduler] Sorting Queue based on AI Predictions (SJF)...")
-    ready_queue.sort(key=lambda x: x.predicted_burst)
+
+# Define an Aging Factor (Sensitivity)
+    AGING_FACTOR = 0.5 
+
+# Update the sort logic
+# The longer it waits, the smaller its 'rank' value becomes, so it moves to the front.
+    ready_queue.sort(key=lambda x: x.predicted_burst - (x.waiting_time * AGING_FACTOR))
 
     # STEP C: EXECUTION
     print("\n--- EXECUTION ORDER (GANTT CHART) ---")
