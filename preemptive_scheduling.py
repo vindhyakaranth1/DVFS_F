@@ -22,25 +22,36 @@ except FileNotFoundError:
 class Process:
     def __init__(self, pid):
         self.pid = pid
-        # To make Preemption interesting, processes must arrive at different times
-        self.arrival_time = random.randint(0, 15) 
+        # Cloud tasks arrive randomly, so we increase the randomness here
+        self.arrival_time = random.randint(0, 20) 
         
-        # Determine Process Type (Heavy vs Light)
-        if pid % 2 == 0: 
-            self.base_burst = 50  # CPU Heavy
-        else:            
-            self.base_burst = 5   # I/O Light
+        # --- UPDATE FOR GOOGLE DATA ---
+        # Instead of fixed 50ms vs 5ms, we generate "Cloud-like" patterns.
+        # Real cloud tasks vary wildly.
+        
+        # 40% chance of being a "Short Task" (Microservice)
+        if random.random() < 0.4:
+            self.base_burst = random.randint(1, 15)
+        # 40% chance of being a "Medium Task" (Web Server)
+        elif random.random() < 0.8:
+            self.base_burst = random.randint(20, 60)
+        # 20% chance of being a "Long Task" (Data Processing)
+        else:
+            self.base_burst = random.randint(70, 95)
             
-        self.history = [self.base_burst, self.base_burst, self.base_burst]
+        # Initialize history with 3 values close to the base (Simulating stability)
+        self.history = [
+            max(1, self.base_burst + random.randint(-5, 5)),
+            max(1, self.base_burst + random.randint(-5, 5)),
+            max(1, self.base_burst + random.randint(-5, 5))
+        ]
         
-        # The 'Truth' (Unknown to OS, used for simulation)
-        self.actual_burst = max(1, self.base_burst + random.randint(-5, 5))
-        self.remaining_time = self.actual_burst # For Preemptive logic
-        
-        # The 'Guess' (What AI gives us)
-        self.predicted_burst = 0
+        # The 'Truth' (Unknown to OS)
+        self.actual_burst = max(1, self.base_burst + random.randint(-10, 10))
+        self.remaining_time = self.actual_burst 
         
         # Metrics
+        self.predicted_burst = 0
         self.start_time = -1
         self.completion_time = 0
         self.waiting_time = 0

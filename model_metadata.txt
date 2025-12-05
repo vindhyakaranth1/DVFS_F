@@ -1,0 +1,11 @@
+model_type: LinearRegression
+window_size: 3
+num_training_samples: 127877
+num_test_samples: 31970
+mae_train: 10.101555990946883
+mae_test: 5.67506674587597
+coefficients: [0.2465526032724896, 0.32138098460179154, 0.05075358556544357]
+intercept: 29.205688661097646
+min_log: 1.0986122886681096
+max_log: 28.615312617202928
+normalization_range: [1, 100]
