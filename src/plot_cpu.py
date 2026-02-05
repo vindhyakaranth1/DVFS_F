@@ -2,15 +2,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-# Locate data safely
+# -------- Paths --------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
 DATA_PATH = os.path.join(PROJECT_ROOT, "data", "raw", "cpu_log.csv")
 
-# Load data
-df = pd.read_csv(DATA_PATH)
+# -------- Load CSV without header --------
+df = pd.read_csv(DATA_PATH, header=None)
 
-# Convert timestamp
+# -------- Assign column names --------
+df.columns = [
+    "timestamp",
+    "cpu_util",
+    "cpu_freq_mhz",
+    "num_processes",
+    "session"
+]
+
+# -------- Convert timestamp --------
 df["timestamp"] = pd.to_datetime(df["timestamp"])
 
 # ------------------ PLOTS ------------------
