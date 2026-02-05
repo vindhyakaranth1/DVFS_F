@@ -40,6 +40,8 @@ model.fit(X_train, y_train)
 
 # -------- Evaluate --------
 y_pred = model.predict(X_test)
+y_prob = model.predict_proba(X)[:, 1]
+
 
 acc = accuracy_score(y_test, y_pred)
 
@@ -53,5 +55,11 @@ print("\nClassification Report:")
 print(classification_report(y_test, y_pred, digits=3))
 
 # -------- Save model --------
+PROB_PATH = os.path.join(PROJECT_ROOT, "data", "y_prob.npy")
+np.save(PROB_PATH, y_prob)
+
+print("Prediction probabilities saved to:", PROB_PATH)
+
+
 joblib.dump(model, MODEL_PATH)
 print("\nModel saved to:", MODEL_PATH)
