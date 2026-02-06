@@ -1,0 +1,5 @@
+Metric,Baseline,Smart-Watt,Improvement
+Total Energy,"315,584,806,400","258,301,609,600",+18.15%
+Avg Energy/Sample,"3,653,024.73","2,989,948.02",+18.15%
+Transitions,"18,440","5,878",+68.1%
+Transitions/Sample,0.2135,0.0680,+68.1%
